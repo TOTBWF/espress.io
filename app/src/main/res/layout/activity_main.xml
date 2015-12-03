@@ -20,18 +20,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <!-- First child in the layout is the main UI -->
-        <RelativeLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/main_fragment"
-                android:name="io.reed.dripr.CalculatorFragment"
-                tools:layout="@layout/fragment_calculator"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </fragment>
-        </RelativeLayout>
+            android:layout_height="match_parent"
+            android:id="@+id/fragment_container">
+        </FrameLayout>
         <!-- The Drawer Layout -->
         <LinearLayout
             android:id="@+id/navLayout"

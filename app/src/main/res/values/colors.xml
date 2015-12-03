@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#4e342e</color>
-    <color name="primary_dark">#3e2723</color>
-    <color name="accent">#5d4037</color>
-    <color name="primary_text">#ffffff</color>
-    <color name="background">#8d6e63</color>
-    <color name="drawer_background">#795548</color>
+    <color name="primary">#ff4e342e</color>
+    <color name="primary_dark">#ff3e2723</color>
+    <color name="accent">#ff5d4037</color>
+    <color name="primary_text">#ffefebe9</color>
+    <color name="background">#ff8d6e63</color>
+    <color name="drawer_background">#ff795548</color>
 </resources>

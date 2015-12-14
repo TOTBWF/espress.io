@@ -8,6 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/background"
     tools:context=".CalculatorFragment">
     <TableLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -132,13 +133,32 @@
                 android:gravity="end"
                 android:layout_weight="1"/>
         </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:id="@+id/row_bean"
+            android:layout_weight="1"
+            android:gravity="center_vertical">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/field_bean"
+                android:id="@+id/label_bean"
+                android:gravity="start"
+                android:textSize="@dimen/text_size_calc"
+                android:layout_weight="1"/>
+            <Spinner
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/bean_spinner"
+                android:textSize="@dimen/text_size_calc"
+                android:gravity="end"
+                android:layout_weight="1"/>
+        </TableRow>
     </TableLayout>
-
     <Space
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="right" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -154,23 +174,35 @@
             androidPlot.rangeLabel="TDS (%)"
             androidplot.backgroundPaint.color="@color/background"
             androidPlot.borderPaint.color="@color/background"
-            androidPlot.marginTop="@dimen/graph_padding"
-            androidPlot.marginRight="@dimen/graph_padding"
+            androidPlot.graphWidget.paddingTop="@dimen/graph_top_padding"
+            androidPlot.graphWidget.paddingRight="@dimen/graph_right_padding"
+            androidPlot.graphWidget.paddingBottom="@dimen/graph_bottom_padding"
             androidPlot.graphWidget.backgroundPaint.color="@color/background"
             androidPlot.graphWidget.gridBackgroundPaint.color="@color/background"
-            androidPlot.graphWidget.domainGridLinePaint.color="@color/primary_text"
-            androidPlot.graphWidget.rangeGridLinePaint.color="@color/primary_text"
-            androidPlot.domainLabelWidget.labelPaint.color="@color/primary_text"
-            androidPlot.rangeLabelWidget.labelPaint.color="@color/primary_text"
+            androidPlot.graphWidget.domainGridLinePaint.color="@color/light_accent"
+            androidPlot.graphWidget.rangeGridLinePaint.color="@color/light_accent"
+            androidPlot.graphWidget.rangeOriginLinePaint.color="@color/light_accent"
+            androidPlot.graphWidget.domainOriginLinePaint.color="@color/light_accent"
+            androidPlot.graphWidget.rangeLabelPaint.color="@color/light_accent"
+            androidPlot.graphWidget.domainLabelPaint.color="@color/light_accent"
+            androidPlot.graphWidget.rangeLabelPaint.textSize="@dimen/graph_label_text_size"
+            androidPlot.graphWidget.domainLabelPaint.textSize="@dimen/graph_label_text_size"
+            androidPlot.domainLabelWidget.labelPaint.color="@color/light_accent"
+            androidPlot.rangeLabelWidget.labelPaint.color="@color/light_accent"
+            androidPlot.domainLabelWidget.labelPaint.textSize="@dimen/graph_label_text_size"
+            androidPlot.rangeLabelWidget.labelPaint.textSize="@dimen/graph_label_text_size"
+            androidPlot.ticksPerRangeLabel="4"
+            androidPlot.ticksPerDomainLabel="4"
             androidPlot.legendWidget.visible="false"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/button_save"
             android:id="@+id/button_calc_save"
+            android:theme="@style/ToolbarTheme"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true" />
-
+            android:layout_alignParentStart="true"
+            android:enabled="false" />
     </RelativeLayout>
 </LinearLayout>

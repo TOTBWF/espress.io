@@ -2,13 +2,12 @@ package io.reed.dripr;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.style.TtsSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +20,10 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private ListView mDrawerList;
     private DrawerLayout mDrawerLayout;
+
+    private enum DrawerFragments {
+        CALCULATOR, SOLVER, VISUALIZER, PROFILE_EDITOR, SETTINGS
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,23 +104,24 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void addDrawerItems() {
-        String[] items = {"Calculator", "Solver"};
+        String[] items = {"Calculator", "Solver", "Visualizer", "Profile Editor", "Settings"};
         ArrayAdapter<String> mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         mDrawerList.setAdapter(mAdapter);
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentManager fragmentManager = getFragmentManager();
                 Fragment fragment = null;
-                switch (position) {
-                    case 0:
-                        // Calculator
+                DrawerFragments drawerFragment = DrawerFragments.values()[position];
+                switch (drawerFragment) {
+                    case CALCULATOR:
                         fragment = new CalculatorFragment();
                         break;
-                    case 1:
+                    case SOLVER:
                         fragment = new SolverFragment();
-                        // Solver
                         break;
+                    case VISUALIZER:
+                        fragment = new VisualizerFragment();
                     default:
                         break;
                 }
@@ -126,6 +130,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         // Once the initial stuff has been set up, force the first fragment to load
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CalculatorFragment()).commit();
+        getFragmentManager().beginTransaction().replace(R.id.fragment_container, new CalculatorFragment()).commit();
     }
 }

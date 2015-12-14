@@ -3,7 +3,8 @@
     <color name="primary">#ff4e342e</color>
     <color name="primary_dark">#ff3e2723</color>
     <color name="accent">#ff5d4037</color>
-    <color name="primary_text">#ffefebe9</color>
-    <color name="background">#ff8d6e63</color>
-    <color name="drawer_background">#ff795548</color>
+    <color name="light_accent">#ff795548</color>
+    <color name="light_text">#ffffffff</color>
+    <color name="background">#ffffff</color>
+    <color name="drawer_background">#ffffffff</color>
 </resources>

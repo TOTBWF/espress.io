@@ -1,6 +1,8 @@
 package io.reed.dripr.Utils;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.provider.ContactsContract;
 import android.util.Log;
 
 import com.androidplot.xy.BoundaryMode;
@@ -8,6 +10,7 @@ import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYPlot;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import io.reed.dripr.R;
@@ -16,6 +19,7 @@ import io.reed.dripr.R;
  * Created by reed on 12/3/15.
  */
 public class YieldTdsTarget {
+    private String name;
     private double yieldTarget;
     private double yieldTolerances;
     private double tdsTarget;
@@ -25,29 +29,45 @@ public class YieldTdsTarget {
     private double beanAbsorptionFactor;
 
     // Default values
-    public static final double DEFAULT_YIELD_TARGET = 20;
-    public static final double DEFAULT_YIELD_TOLERANCES = 2;
-    public static final double DEFAULT_TDS_TARGET = 1.25;
-    public static final double DEFAULT_BEAN_ABSORPTION = 2;
-    public static final double DEFAULT_TDS_TOLERANCES = .1;
-    public static final double DEFAULT_ESPRESSO_YIELD = 25;
-    public static final double DEFAULT_ESPRESSO_TDS = 9.25;
+    public static final String DEFAULT_DRIP_NAME = "Default Drip";
+    public static final double DEFAULT_DRIP_YIELD_TARGET = 20;
+    public static final double DEFAULT_DRIP_YIELD_TOLERANCES = 2;
+    public static final double DEFAULT_DRIP_TDS_TARGET = 1.25;
+    public static final double DEFAULT_DRIP_TDS_TOLERANCES = .1;
+    public static final double DEFAULT_DRIP_BEAN_ABSORPTION = 2;
 
-    // Default constructor
-    public YieldTdsTarget() {
-        this.yieldTarget = DEFAULT_YIELD_TARGET;
-        this.yieldTolerances = DEFAULT_YIELD_TOLERANCES;
-        this.tdsTarget = DEFAULT_TDS_TARGET;
-        this.tdsTolerances = DEFAULT_TDS_TOLERANCES;
-        this.beanAbsorptionFactor = DEFAULT_BEAN_ABSORPTION;
-    }
+    public static final String DEFAULT_ESPRESSO_NAME = "Default Espresso";
+    public static final double DEFAULT_ESPRESSO_YIELD_TARGET = 25;
+    public static final double DEFAULT_ESPRESSO_YIELD_TOLERANCES = 2;
+    public static final double DEFAULT_ESPRESSO_TDS_TARGET = 9.25;
+    public static final double DEFAULT_ESPRESSO_TDS_TOLERANCES = .1;
+    public static final double DEFAULT_ESPRESSO_BEAN_ABSORPTION = 2;
 
-    public YieldTdsTarget(double yieldTarget, double yieldTolerances,
+    public YieldTdsTarget(String name, double yieldTarget, double yieldTolerances,
                            double tdsTarget, double tdsTolerances, double beanAbsorptionFactor) {
+        this.name = name;
         this.yieldTarget = yieldTarget;
         this.yieldTolerances = yieldTolerances;
         this.tdsTarget = tdsTarget;
         this.tdsTolerances = tdsTolerances;
+        this.beanAbsorptionFactor = beanAbsorptionFactor;
+    }
+
+    public static ArrayList<YieldTdsTarget> getStoredTargets(DatabaseHelper db) {
+        ArrayList<YieldTdsTarget> storedTargets = new ArrayList<>();
+        Cursor c = db.getProfiles();
+        c.moveToFirst();
+        while(!c.isAfterLast()) {
+            String name = c.getString(1);
+            double tds = c.getDouble(2);
+            double yield = c.getDouble(3);
+            double tdsTolerance = c.getDouble(4);
+            double yieldTolerance = c.getDouble(5);
+            double beanAbsorption = c.getDouble(6);
+            storedTargets.add(new YieldTdsTarget(name, yield, yieldTolerance, tds, tdsTolerance, beanAbsorption));
+            c.moveToNext();
+        }
+        return storedTargets;
     }
 
     // Updates a given graph with bounds
@@ -134,5 +154,9 @@ public class YieldTdsTarget {
 
     public double getBeanAbsorptionFactor() {
         return beanAbsorptionFactor;
+    }
+
+    public String getName() {
+        return name;
     }
 }

@@ -37,7 +37,7 @@ public class VisualizerFragment extends Fragment {
     private DatabaseHelper mDbHelper;
     private SimpleXYSeries mTargetLine;
     private SimpleXYSeries mPoints;
-    private YieldTdsTarget mTargetValues;
+    private ArrayList<YieldTdsTarget> mTargets;
     private SimpleXYSeries[] mTargetBounds;
 
     public VisualizerFragment() {
@@ -53,7 +53,7 @@ public class VisualizerFragment extends Fragment {
         mBeanSpinner = (Spinner)v.findViewById(R.id.visualizer_spinner_bean);
         mGraph = (XYPlot)v.findViewById(R.id.visualizer_graph);
         mDbHelper = new DatabaseHelper(getActivity().getApplicationContext());
-        mTargetValues = new YieldTdsTarget();
+        mTargets = YieldTdsTarget.getStoredTargets(mDbHelper);
         mTargetBounds = new SimpleXYSeries[4];
         setupGraph();
         setupSpinner();
@@ -75,34 +75,20 @@ public class VisualizerFragment extends Fragment {
     }
 
     private void setupSpinner() {
-        // TODO Read values from db
         ArrayList<String> options = new ArrayList<String>();
-        // Add defaults
-        options.add("Default Drip");
-        options.add("Default Espresso");
+        for(YieldTdsTarget y: mTargets) {
+            options.add(y.getName());
+        }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_dropdown_item, options);
         mBeanSpinner.setAdapter(adapter);
         mBeanSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 0:
-                        // Default drip
-                        mTargetValues = new YieldTdsTarget();
-                        break;
-                    case 1:
-                        mTargetValues = new YieldTdsTarget(YieldTdsTarget.DEFAULT_ESPRESSO_YIELD, YieldTdsTarget.DEFAULT_YIELD_TOLERANCES,
-                                YieldTdsTarget.DEFAULT_ESPRESSO_TDS, YieldTdsTarget.DEFAULT_TDS_TOLERANCES, YieldTdsTarget.DEFAULT_BEAN_ABSORPTION);
-                        break;
-                    default:
-                        break;
-
-                }
-                mTargetValues.updateGraphBounds(getActivity(), mGraph, mTargetBounds);
-                mPoints = getDatabasePoints(mDbHelper.getEntries(""));
+                mTargets.get(position).updateGraphBounds(getActivity(), mGraph, mTargetBounds);
+                mPoints = getDatabasePoints(mDbHelper.getEntries(mTargets.get(position).getName()));
                 mGraph.addSeries(mPoints, mFormatter);
                 mGraph.removeSeries(mTargetLine);
-                mTargetLine = mTargetValues.drawFormulaLine(getActivity(), mGraph);
+                mTargetLine = mTargets.get(position).drawFormulaLine(getActivity(), mGraph);
             }
 
             @Override

@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import io.reed.dripr.Utils.Converters;
+import io.reed.dripr.Utils.DatabaseHelper;
 import io.reed.dripr.Utils.YieldTdsTarget;
 
 /**
@@ -45,8 +46,10 @@ public class SolverFragment extends Fragment {
     private TextView mSolutionLabel;
     private Spinner mSolverSpinner;
     private Spinner mBeanSpinner;
-    private YieldTdsTarget mTargetValues;
     private CheckBox mIncludeBeans;
+    private DatabaseHelper mDbHelper;
+    private ArrayList<YieldTdsTarget> mTargets;
+    private int selectedTargetIndex;
 
     private enum Solutions {
         DOSE, OUTPUT
@@ -74,7 +77,8 @@ public class SolverFragment extends Fragment {
         mSolverSpinner = (Spinner)v.findViewById(R.id.solver_spinner);
         mBeanSpinner = (Spinner)v.findViewById(R.id.solver_bean_spinner);
         mIncludeBeans = (CheckBox)v.findViewById(R.id.solver_check_include);
-        mTargetValues = new YieldTdsTarget();
+        mDbHelper = new DatabaseHelper(getActivity().getApplicationContext());
+        mTargets = YieldTdsTarget.getStoredTargets(mDbHelper);
         setupSpinners();
         setupEditTexts();
         setupCheckbox();
@@ -113,27 +117,15 @@ public class SolverFragment extends Fragment {
         });
         // TODO Read values from db
         ArrayList<String> beanOptions = new ArrayList<String>();
-        // Add defaults
-        beanOptions.add("Default Drip");
-        beanOptions.add("Default Espresso");
+        for(YieldTdsTarget y: mTargets) {
+            beanOptions.add(y.getName());
+        }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_dropdown_item, beanOptions);
         mBeanSpinner.setAdapter(adapter);
         mBeanSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 0:
-                        // Default drip
-                        mTargetValues = new YieldTdsTarget();
-                        break;
-                    case 1:
-                        mTargetValues = new YieldTdsTarget(YieldTdsTarget.DEFAULT_ESPRESSO_YIELD, YieldTdsTarget.DEFAULT_YIELD_TOLERANCES,
-                                YieldTdsTarget.DEFAULT_ESPRESSO_TDS, YieldTdsTarget.DEFAULT_TDS_TOLERANCES, YieldTdsTarget.DEFAULT_BEAN_ABSORPTION);
-                        break;
-                    default:
-                        break;
-
-                }
+                selectedTargetIndex = position;
                 mInputEdit.setText(null);
             }
 
@@ -176,9 +168,9 @@ public class SolverFragment extends Fragment {
 
     private void updateSolution() {
         double input = Converters.convertEditToDouble(mInputEdit);
-        double tds = mTargetValues.getTdsTarget();
-        double yield = mTargetValues.getYieldTarget();
-        double absorption = mTargetValues.getBeanAbsorptionFactor();
+        double tds = mTargets.get(selectedTargetIndex).getTdsTarget();
+        double yield = mTargets.get(selectedTargetIndex).getYieldTarget();
+        double absorption = mTargets.get(selectedTargetIndex).getBeanAbsorptionFactor();
         boolean includeBeans= mIncludeBeans.isChecked();
         // Get the solution from the enum using the spinner to index
         // Decoupling UI from logic is good!

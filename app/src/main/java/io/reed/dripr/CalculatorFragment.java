@@ -51,10 +51,10 @@ public class CalculatorFragment extends Fragment {
     private LineAndPointFormatter mFormatter;
     private Button mSaveButton;
     private Spinner mSpinner;
-    private YieldTdsTarget mTargetValues;
     private SimpleXYSeries[] mTargetBounds;
     private SimpleXYSeries mTargetLine;
     private DatabaseHelper mDbHelper;
+    private ArrayList<YieldTdsTarget> mTargets;
     private final DecimalFormat format = new DecimalFormat("0.##");
 
     public CalculatorFragment() {
@@ -75,8 +75,7 @@ public class CalculatorFragment extends Fragment {
         mSpinner = (Spinner)v.findViewById(R.id.bean_spinner);
         // Instantiate the database
         mDbHelper = new DatabaseHelper(getActivity().getApplicationContext());
-        // Set the default target values
-        mTargetValues = new YieldTdsTarget();
+        mTargets = YieldTdsTarget.getStoredTargets(mDbHelper);
         mTargetBounds = new SimpleXYSeries[4];
         setupGraph();
         setupSpinner();
@@ -86,32 +85,17 @@ public class CalculatorFragment extends Fragment {
     }
 
     private void setupSpinner() {
-        // TODO Read values from db
-        ArrayList<String> options = new ArrayList<String>();
-        // Add defaults
-        options.add("Default Drip");
-        options.add("Default Espresso");
+        // Get the names of the profiles
+        ArrayList<String> options = new ArrayList<>();
+        for(YieldTdsTarget y: mTargets) {
+           options.add(y.getName());
+        }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_dropdown_item, options);
         mSpinner.setAdapter(adapter);
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 0:
-                        // Default drip
-                        mTargetValues = new YieldTdsTarget();
-                        break;
-                    case 1:
-                        mTargetValues = new YieldTdsTarget(YieldTdsTarget.DEFAULT_ESPRESSO_YIELD, YieldTdsTarget.DEFAULT_YIELD_TOLERANCES,
-                                YieldTdsTarget.DEFAULT_ESPRESSO_TDS, YieldTdsTarget.DEFAULT_TDS_TOLERANCES, YieldTdsTarget.DEFAULT_BEAN_ABSORPTION);
-                        break;
-                    default:
-                        break;
-
-                }
-                mTargetValues.updateGraphBounds(getActivity(), mGraph, mTargetBounds);
-                mGraph.removeSeries(mTargetLine);
-                mTargetLine = mTargetValues.drawFormulaLine(getActivity(), mGraph);
+                updateGraphBounds(position);
             }
 
             @Override
@@ -188,9 +172,7 @@ public class CalculatorFragment extends Fragment {
                     }
                     mPoints = new SimpleXYSeries(Arrays.asList(xVals), Arrays.asList(yVals), "Yield vs TDS");
                     mGraph.addSeries(mPoints, mFormatter);
-                    mTargetValues.updateGraphBounds(getActivity(), mGraph, mTargetBounds);
-                    mGraph.removeSeries(mTargetLine);
-                    mTargetLine = mTargetValues.drawFormulaLine(getActivity(), mGraph);
+                    updateGraphBounds(mSpinner.getSelectedItemPosition());
                     mGraph.redraw();
                 } else {
                     mYieldEdit.setText(null);
@@ -227,12 +209,16 @@ public class CalculatorFragment extends Fragment {
                 mTdsEdit.setText(null);
                 mYieldEdit.setText(null);
                 mSpinner.setSelection(0);
-                mTargetValues = new YieldTdsTarget();
                 mGraph.removeSeries(mPoints);
                 mPoints = null;
                 mGraph.redraw();
-                mTargetValues.updateGraphBounds(getActivity(), mGraph, mTargetBounds);
             }
         });
+    }
+
+    private void updateGraphBounds(int position) {
+        mTargets.get(position).updateGraphBounds(getActivity(), mGraph, mTargetBounds);
+        mGraph.removeSeries(mTargetLine);
+        mTargetLine = mTargets.get(position).drawFormulaLine(getActivity(), mGraph);
     }
 }

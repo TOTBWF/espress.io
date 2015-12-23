@@ -151,6 +151,8 @@ public class YieldTdsTarget {
     public void deleteTargetFromDatabase(DatabaseHelper dbHelper) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         db.delete(CoffeeDatabaseContract.ProfileEntry.TABLE_PROFILE, CoffeeDatabaseContract.ProfileEntry.COLUMN_NAME + "='" + name + "'", null);
+        db.delete(CoffeeDatabaseContract.CoffeeEntry.TABLE_COFFEE, CoffeeDatabaseContract.CoffeeEntry.COLUMN_BEANS + "='" + name + "'", null);
+        db.close();
     }
 
     public double getYieldMin() {

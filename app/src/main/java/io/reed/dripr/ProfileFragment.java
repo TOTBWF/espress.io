@@ -1,9 +1,12 @@
 package io.reed.dripr;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.design.widget.Snackbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -169,6 +172,10 @@ public class ProfileFragment extends Fragment {
                 } else {
                     target.writeTargetToDatabase(mDbHelper);
                 }
+                String message = (isUpdate ? "Updated Profile!" : "Saved Profile!");
+                Snackbar snackbar = Snackbar
+                        .make(getActivity().findViewById(R.id.main_coordinator_layout), message, Snackbar.LENGTH_SHORT);
+                snackbar.show();
                 // Refresh the spinner
                 mTargets = YieldTdsTarget.getStoredTargets(mDbHelper);
                 setupSpinner();
@@ -178,10 +185,22 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                mTargets.get(mProfileSpinner.getSelectedItemPosition() - 1).deleteTargetFromDatabase(mDbHelper);
-                // Refresh the spinner
-                mTargets = YieldTdsTarget.getStoredTargets(mDbHelper);
-                setupSpinner();
+                new AlertDialog.Builder(getActivity())
+                        .setTitle("Title")
+                        .setMessage("Do you really want to whatever?")
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                mTargets.get(mProfileSpinner.getSelectedItemPosition() - 1).deleteTargetFromDatabase(mDbHelper);
+                                Snackbar snackbar = Snackbar
+                                        .make(getActivity().findViewById(R.id.main_coordinator_layout), "Deleted Profile!", Snackbar.LENGTH_SHORT);
+                                snackbar.show();
+                                // Refresh the spinner
+                                mTargets = YieldTdsTarget.getStoredTargets(mDbHelper);
+                                setupSpinner();
+                            }})
+                        .setNegativeButton(android.R.string.no, null).show();
             }
         });
     }

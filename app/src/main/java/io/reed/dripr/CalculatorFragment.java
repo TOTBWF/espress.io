@@ -4,6 +4,8 @@ import android.app.Fragment;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -201,6 +203,10 @@ public class CalculatorFragment extends Fragment {
                 values.put(CoffeeDatabaseContract.CoffeeEntry.COLUMN_TDS, Converters.convertEditToDouble(mTdsEdit));
                 values.put(CoffeeDatabaseContract.CoffeeEntry.COLUMN_BEANS, (String) mSpinner.getSelectedItem());
                 db.insert(CoffeeDatabaseContract.CoffeeEntry.TABLE_COFFEE, CoffeeDatabaseContract.CoffeeEntry.COLUMN_NAME_NULLABLE, values);
+                // Display a saved snack
+                Snackbar snackbar = Snackbar
+                        .make(getActivity().findViewById(R.id.main_coordinator_layout), "Saved Entry!", Snackbar.LENGTH_SHORT);
+                snackbar.show();
                 // Clear input fields after saving
                 mSaveButton.setEnabled(false);
                 mDoseEdit.setText(null);

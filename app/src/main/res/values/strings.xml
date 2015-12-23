@@ -6,6 +6,7 @@
     <string name="drawer_close">Close navigation drawer</string>
 
     <string name="field_zero_hint">0.00</string>
+    <string name="field_name_hint">New Profile</string>
     <string name="field_dose">Dose(g):</string>
     <string name="field_output">Output(g):</string>
     <string name="field_brix">Brix(%):</string>
@@ -13,9 +14,14 @@
     <string name="field_yield">Yield(%):</string>
     <string name="field_bean">Bean Profile:</string>
     <string name="field_solver">Solve Variable</string>
+    <string name="field_name">Profile Name:</string>
+    <string name="field_tds_tolerances">TDS Tolerances:</string>
+    <string name="field_yield_tolerances">Yield Tolerances:</string>
+    <string name="field_absorption">Absorption Factor:</string>
     <string name="check_include">Include Grind Mass</string>
 
     <string name="button_save">Save</string>
+    <string name="button_delete">Delete</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

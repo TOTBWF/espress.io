@@ -122,6 +122,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case VISUALIZER:
                         fragment = new VisualizerFragment();
+                        break;
+                    case PROFILE_EDITOR:
+                        fragment = new ProfileFragment();
                     default:
                         break;
                 }

@@ -1,7 +1,9 @@
 package io.reed.dripr.Utils;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.provider.ContactsContract;
 import android.util.Log;
 
@@ -67,6 +69,7 @@ public class YieldTdsTarget {
             storedTargets.add(new YieldTdsTarget(name, yield, yieldTolerance, tds, tdsTolerance, beanAbsorption));
             c.moveToNext();
         }
+        c.close();
         return storedTargets;
     }
 
@@ -118,6 +121,24 @@ public class YieldTdsTarget {
         graph.addSeries(line, formatter);
         graph.redraw();
         return line;
+    }
+
+    public void writeTargetToDatabase(DatabaseHelper dbHelper) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(CoffeeDatabaseContract.ProfileEntry.COLUMN_NAME, name);
+        values.put(CoffeeDatabaseContract.ProfileEntry.COLUMN_TDS, tdsTarget);
+        values.put(CoffeeDatabaseContract.ProfileEntry.COLUMN_YIELD, yieldTarget);
+        values.put(CoffeeDatabaseContract.ProfileEntry.COLUMN_TDS_TOLERANCES, tdsTolerances);
+        values.put(CoffeeDatabaseContract.ProfileEntry.COLUMN_YIELD_TOLERANCES, yieldTolerances);
+        values.put(CoffeeDatabaseContract.ProfileEntry.COLUMN_BEAN_ABSORPTION, beanAbsorptionFactor);
+        db.insert(CoffeeDatabaseContract.ProfileEntry.TABLE_PROFILE, CoffeeDatabaseContract.CoffeeEntry.COLUMN_NAME_NULLABLE, values);
+        db.close();
+    }
+
+    public void deleteTargetFromDatabase(DatabaseHelper dbHelper) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.delete(CoffeeDatabaseContract.ProfileEntry.TABLE_PROFILE, CoffeeDatabaseContract.ProfileEntry.COLUMN_NAME + "='" + name + "'", null);
     }
 
     public double getYieldMin() {

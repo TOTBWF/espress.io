@@ -7,4 +7,6 @@
     <color name="light_text">#ffffffff</color>
     <color name="background">#ffffff</color>
     <color name="drawer_background">#ffffffff</color>
+    <color name="delete_button">#f44336</color>
+    <color name="delete_button_text">#ff8a80</color>
 </resources>

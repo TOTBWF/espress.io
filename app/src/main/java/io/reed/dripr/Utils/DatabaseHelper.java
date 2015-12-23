@@ -48,7 +48,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(CoffeeDatabaseContract.ProfileEntry.COLUMN_TDS_TOLERANCES, YieldTdsTarget.DEFAULT_ESPRESSO_TDS_TOLERANCES);
         values.put(CoffeeDatabaseContract.ProfileEntry.COLUMN_YIELD_TOLERANCES, YieldTdsTarget.DEFAULT_ESPRESSO_YIELD_TOLERANCES);
         values.put(CoffeeDatabaseContract.ProfileEntry.COLUMN_BEAN_ABSORPTION, YieldTdsTarget.DEFAULT_ESPRESSO_BEAN_ABSORPTION);
-        db.insert(CoffeeDatabaseContract.ProfileEntry.TABLE_PROFILE, CoffeeDatabaseContract.CoffeeEntry.COLUMN_NAME_NULLABLE, values);
+        db.insert(CoffeeDatabaseContract.ProfileEntry.TABLE_PROFILE, CoffeeDatabaseContract.ProfileEntry.COLUMN_NAME_NULLABLE, values);
     }
 
     @Override

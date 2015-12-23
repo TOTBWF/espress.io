@@ -14,4 +14,9 @@
         <item name="colorAccent">@color/accent</item>
         <item name="android:colorButtonNormal">@color/primary</item>
     </style>
+    <style name="DeleteButton" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:colorPrimary">@color/delete_button</item>
+        <item name="android:colorButtonNormal">@color/delete_button</item>
+        <item name="android:colorAccent">@color/delete_button_text</item>
+    </style>
 </resources>

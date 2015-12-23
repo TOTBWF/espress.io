@@ -1,6 +1,7 @@
 package io.reed.dripr;
 
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.text.Editable;
@@ -13,9 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 
-import java.sql.BatchUpdateException;
 import java.util.ArrayList;
 
 import io.reed.dripr.Utils.Converters;
@@ -39,6 +38,7 @@ public class ProfileFragment extends Fragment {
     private Button mDeleteButton;
     private DatabaseHelper mDbHelper;
     private ArrayList<YieldTdsTarget> mTargets;
+    private boolean isUpdate;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -61,8 +61,8 @@ public class ProfileFragment extends Fragment {
         mDeleteButton = (Button)v.findViewById(R.id.profile_button_delete);
         mDbHelper = new DatabaseHelper(getActivity().getApplicationContext());
         mTargets = YieldTdsTarget.getStoredTargets(mDbHelper);
-        setupSpinner();
         setupEditTexts();
+        setupSpinner();
         setupButtons();
         return v;
     }
@@ -82,13 +82,13 @@ public class ProfileFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
                     // Setup for new profile creation
-                    mNameEdit.setText("New Profile");
+                    mNameEdit.setText(R.string.new_profile);
                     mTdsEdit.setText(Double.toString(YieldTdsTarget.DEFAULT_DRIP_TDS_TARGET));
                     mYieldEdit.setText(Double.toString(YieldTdsTarget.DEFAULT_DRIP_YIELD_TARGET));
                     mTdsTolerancesEdit.setText(Double.toString(YieldTdsTarget.DEFAULT_DRIP_TDS_TOLERANCES));
                     mYieldTolerancesEdit.setText(Double.toString(YieldTdsTarget.DEFAULT_DRIP_YIELD_TOLERANCES));
                     mAbsorptionEdit.setText(Double.toString(YieldTdsTarget.DEFAULT_DRIP_BEAN_ABSORPTION));
-                    mDeleteButton.setEnabled(false);
+                    setButtonStatus("New Profile", null);
                 } else {
                     // Decrement by one due to new profile button
                     YieldTdsTarget target = mTargets.get(position - 1);
@@ -98,7 +98,7 @@ public class ProfileFragment extends Fragment {
                     mTdsTolerancesEdit.setText(Double.toString(target.getTdsTolerances()));
                     mYieldTolerancesEdit.setText(Double.toString(target.getYieldTolerances()));
                     mAbsorptionEdit.setText(Double.toString(target.getBeanAbsorptionFactor()));
-                    mDeleteButton.setEnabled(true);
+                    setButtonStatus(target.getName(), target);
                 }
             }
 
@@ -123,19 +123,8 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                // Make sure that the name is valid and unique
-                // Is this the best way to do this? No
-                // Does it matter? Probably not
-                boolean bEnabled = !s.toString().equals("");
-                for(YieldTdsTarget y: mTargets) {
-                   if(y.getName() == s.toString())
-                       bEnabled = false;
-                }
-                mSaveButton.setEnabled(bEnabled);
-                // Check to make sure we don't delete defaults
-                bEnabled = !s.toString().equals("Default Drip");
-                bEnabled &= !s.toString().equals("Default Espresso");
-                mDeleteButton.setEnabled(bEnabled);
+                YieldTdsTarget t = (mProfileSpinner.getSelectedItemPosition() == 0 ? null : mTargets.get(mProfileSpinner.getSelectedItemPosition() - 1));
+                setButtonStatus(s.toString(), t);
             }
         };
         mNameEdit.addTextChangedListener(nameTextWatcher);
@@ -174,8 +163,12 @@ public class ProfileFragment extends Fragment {
                 Double tdsTolerance = Converters.convertEditToDouble(mTdsTolerancesEdit);
                 Double yieldTolerance = Converters.convertEditToDouble(mYieldTolerancesEdit);
                 Double absorption = Converters.convertEditToDouble(mAbsorptionEdit);
-                YieldTdsTarget target = new YieldTdsTarget(name, tds, yield, tdsTolerance, yieldTolerance, absorption);
-                target.writeTargetToDatabase(mDbHelper);
+                YieldTdsTarget target = new YieldTdsTarget(name, yield, yieldTolerance, tds, tdsTolerance, absorption);
+                if(isUpdate) {
+                    target.updateTargetInDatabase(mDbHelper);
+                } else {
+                    target.writeTargetToDatabase(mDbHelper);
+                }
                 // Refresh the spinner
                 mTargets = YieldTdsTarget.getStoredTargets(mDbHelper);
                 setupSpinner();
@@ -193,5 +186,30 @@ public class ProfileFragment extends Fragment {
         });
     }
 
+    private void setButtonStatus(String name, YieldTdsTarget target) {
+        // Make sure that the name is valid and unique
+        // Is this the best way to do this? No
+        // Does it matter? Probably not
+        isUpdate = false;
+        boolean bEnabled = !name.equals("");
+        int buttonName = R.string.button_save;
+        for(YieldTdsTarget y: mTargets) {
+            if(y.getName().equals(name)) {
+                // First check if the
+                buttonName = R.string.button_update;
+                isUpdate = true;
+            }
+        }
+        mSaveButton.setText(buttonName);
+        mSaveButton.setEnabled(bEnabled);
+        // Check to make sure we don't delete defaults
+        if(target != null) {
+            bEnabled = !target.getName().equals("Default Drip");
+            bEnabled &= !target.getName().equals("Default Espresso");
+        } else {
+            bEnabled = false;
+        }
+        mDeleteButton.setEnabled(bEnabled);
+    }
 
 }

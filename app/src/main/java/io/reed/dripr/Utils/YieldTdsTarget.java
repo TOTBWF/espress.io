@@ -136,6 +136,18 @@ public class YieldTdsTarget {
         db.close();
     }
 
+    public void updateTargetInDatabase(DatabaseHelper dbHelper) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(CoffeeDatabaseContract.ProfileEntry.COLUMN_TDS, tdsTarget);
+        values.put(CoffeeDatabaseContract.ProfileEntry.COLUMN_YIELD, yieldTarget);
+        values.put(CoffeeDatabaseContract.ProfileEntry.COLUMN_TDS_TOLERANCES, tdsTolerances);
+        values.put(CoffeeDatabaseContract.ProfileEntry.COLUMN_YIELD_TOLERANCES, yieldTolerances);
+        values.put(CoffeeDatabaseContract.ProfileEntry.COLUMN_BEAN_ABSORPTION, beanAbsorptionFactor);
+        db.update(CoffeeDatabaseContract.ProfileEntry.TABLE_PROFILE, values, CoffeeDatabaseContract.ProfileEntry.COLUMN_NAME + "='" + name +"'", null);
+        db.close();
+    }
+
     public void deleteTargetFromDatabase(DatabaseHelper dbHelper) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         db.delete(CoffeeDatabaseContract.ProfileEntry.TABLE_PROFILE, CoffeeDatabaseContract.ProfileEntry.COLUMN_NAME + "='" + name + "'", null);

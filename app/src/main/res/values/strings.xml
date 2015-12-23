@@ -21,7 +21,10 @@
     <string name="check_include">Include Grind Mass</string>
 
     <string name="button_save">Save</string>
+    <string name="button_update">Update</string>
     <string name="button_delete">Delete</string>
+
+    <string name="new_profile">New Profile</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

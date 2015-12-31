@@ -85,6 +85,7 @@ public class VisualizerFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 mTargets.get(position).updateGraphBounds(getActivity(), mGraph, mTargetBounds);
+                mGraph.removeSeries(mPoints);
                 mPoints = getDatabasePoints(mDbHelper.getEntries(mTargets.get(position).getName()));
                 mGraph.addSeries(mPoints, mFormatter);
                 mGraph.removeSeries(mTargetLine);

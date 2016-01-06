@@ -125,6 +125,10 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case PROFILE_EDITOR:
                         fragment = new ProfileFragment();
+                        break;
+                    case SETTINGS:
+                        fragment = new SettingsFragment();
+                        break;
                     default:
                         break;
                 }

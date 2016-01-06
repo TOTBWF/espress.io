@@ -1,4 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="preference_screen"
+    android:title="@string/preference_title"
+    android:persistent="true">
+    <ListPreference
+        android:key="mass_unit_preference"
+        android:title="@string/mass_unit_title"
+        android:entries="@array/mass_options"
+        android:entryValues="@array/mass_options_alias"
+        android:defaultValue="@string/unit_grams"
+        android:persistent="true">
+    </ListPreference>
+    <Preference
+        android:key="dump_to_csv_preference"
+        android:title="@string/dump_to_csv_title"
+        android:summary="@string/dump_to_csv_summary">
+    </Preference>
+    <Preference
+        android:key="load_from_csv_preference"
+        android:title="@string/load_from_csv_title"
+        android:summary="@string/load_from_csv_summary">
+    </Preference>
+    <Preference
+        android:key="delete_database_preference"
+        android:title="@string/delete_database_title"
+        android:summary="@string/delete_database_summary">
+    </Preference>
 </PreferenceScreen>

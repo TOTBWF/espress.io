@@ -13,14 +13,14 @@
     <TableLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:stretchColumns="1">
+        android:orientation="vertical">
         <TableRow
             android:id="@+id/row_dose"
             android:layout_weight="1"
+            android:layout_height="0dp"
             android:layout_width="match_parent"
-            android:orientation="horizontal">
-           <TextView
+            android:gravity="center_vertical">
+            <TextView
                 android:id="@+id/label_dose"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -28,21 +28,38 @@
                 android:textSize="@dimen/text_size_calc"
                 android:gravity="start"
                 android:layout_weight="1" />
-           <EditText
-                android:id="@+id/edit_dose"
-                android:labelFor="@id/edit_dose"
+           <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size_calc"
-                android:hint="@string/field_zero_hint"
-                android:inputType="numberDecimal"
-                android:layout_weight="1"
-                android:gravity="end" />
+                android:layout_weight="1">
+                <EditText
+                   android:id="@+id/edit_dose"
+                   android:labelFor="@id/edit_dose"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:textSize="@dimen/text_size_calc"
+                   android:hint="@string/field_zero_hint"
+                   android:inputType="numberDecimal"
+                   android:gravity="end"
+                   android:layout_toStartOf="@+id/calc_dose_unit"
+                   android:layout_alignParentStart="true"/>
+               <TextView
+                   android:id="@+id/calc_dose_unit"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_gravity="end"
+                   android:textSize="@dimen/text_size_calc"
+                   android:text="@string/unit_grams"
+                   android:layout_centerVertical="true"
+                   android:layout_alignParentEnd="true" />
+           </RelativeLayout>
         </TableRow>
         <TableRow
             android:id="@+id/row_output"
+            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_weight="1">
+            android:layout_height="0dp"
+            android:gravity="center_vertical">
             <TextView
                 android:id="@+id/label_output"
                 android:layout_width="0dp"
@@ -51,20 +68,36 @@
                 android:textSize="@dimen/text_size_calc"
                 android:gravity="start"
                 android:layout_weight="1" />
-            <EditText
-                android:id="@+id/edit_output"
-                android:labelFor="@id/edit_output"
-                android:layout_width="0dp"
+            <RelativeLayout
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size_calc"
-                android:hint="@string/field_zero_hint"
-                android:inputType="numberDecimal"
-                android:gravity="end"
-                android:layout_weight="1" />
+                android:layout_width="0dp"
+                android:layout_weight="1" >
+                <EditText
+                    android:id="@+id/edit_output"
+                    android:labelFor="@id/edit_output"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_calc"
+                    android:hint="@string/field_zero_hint"
+                    android:inputType="numberDecimal"
+                    android:layout_alignParentStart="true"
+                    android:layout_toStartOf="@+id/calc_output_unit"
+                    android:gravity="end"/>
+                <TextView
+                    android:id="@+id/calc_output_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:textSize="@dimen/text_size_calc"
+                    android:text="@string/unit_grams"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true" />
+            </RelativeLayout>
         </TableRow>
         <TableRow
             android:id="@+id/row_brix"
             android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1">
             <TextView
                 android:id="@+id/label_brix"
@@ -74,20 +107,37 @@
                 android:textSize="@dimen/text_size_calc"
                 android:gravity="start"
                 android:layout_weight="1" />
-            <EditText
-                android:id="@+id/edit_brix"
-                android:labelFor="@id/edit_brix"
-                android:layout_width="0dp"
+            <RelativeLayout
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size_calc"
-                android:hint="@string/field_zero_hint"
-                android:inputType="numberDecimal"
-                android:gravity="end"
-                android:layout_weight="1" />
+                android:layout_width="0dp"
+                android:layout_weight="1" >
+                <EditText
+                    android:id="@+id/edit_brix"
+                    android:labelFor="@id/edit_brix"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_calc"
+                    android:hint="@string/field_zero_hint"
+                    android:inputType="numberDecimal"
+                    android:gravity="end"
+                    android:layout_alignParentStart="true"
+                    android:layout_toStartOf="@+id/calc_brix_unit"
+                    android:layout_weight="1" />
+                <TextView
+                    android:id="@+id/calc_brix_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:textSize="@dimen/text_size_calc"
+                    android:text="@string/unit_percent"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true" />
+            </RelativeLayout>
         </TableRow>
         <TableRow
             android:id="@+id/row_tds"
             android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1">
             <TextView
                 android:id="@+id/label_tds"
@@ -97,21 +147,37 @@
                 android:textSize="@dimen/text_size_calc"
                 android:gravity="start"
                 android:layout_weight="1"/>
-            <EditText
-                android:id="@+id/edit_tds"
-                android:labelFor="@id/edit_tds"
-                android:layout_width="0dp"
+            <RelativeLayout
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size_calc"
-                android:hint="@string/field_zero_hint"
-                android:inputType="none"
-                android:editable="false"
-                android:gravity="end"
-                android:layout_weight="1"/>
+                android:layout_width="0dp"
+                android:layout_weight="1" >
+                <EditText
+                    android:id="@+id/edit_tds"
+                    android:labelFor="@id/edit_tds"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_calc"
+                    android:hint="@string/field_zero_hint"
+                    android:inputType="none"
+                    android:editable="false"
+                    android:gravity="end"
+                    android:layout_alignParentStart="true"
+                    android:layout_toStartOf="@+id/calc_tds_unit"/>
+                <TextView
+                    android:id="@+id/calc_tds_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:textSize="@dimen/text_size_calc"
+                    android:text="@string/unit_percent"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true" />
+            </RelativeLayout>
         </TableRow>
         <TableRow
             android:id="@+id/row_yield"
             android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1">
             <TextView
                 android:id="@+id/label_yield"
@@ -121,20 +187,36 @@
                 android:textSize="@dimen/text_size_calc"
                 android:gravity="start"
                 android:layout_weight="1"/>
-            <EditText
-                android:id="@+id/edit_yield"
-                android:labelFor="@id/edit_yield"
-                android:layout_width="0dp"
+            <RelativeLayout
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size_calc"
-                android:hint="@string/field_zero_hint"
-                android:inputType="none"
-                android:editable="false"
-                android:gravity="end"
-                android:layout_weight="1"/>
+                android:layout_width="0dp"
+                android:layout_weight="1" >
+                <EditText
+                    android:id="@+id/edit_yield"
+                    android:labelFor="@id/edit_yield"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_calc"
+                    android:hint="@string/field_zero_hint"
+                    android:inputType="none"
+                    android:editable="false"
+                    android:gravity="end"
+                    android:layout_alignParentStart="true"
+                    android:layout_toStartOf="@+id/calc_yield_unit"/>
+                <TextView
+                    android:id="@+id/calc_yield_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:textSize="@dimen/text_size_calc"
+                    android:text="@string/unit_percent"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true" />
+            </RelativeLayout>
         </TableRow>
         <TableRow
             android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:id="@+id/row_bean"
             android:layout_weight="1"
             android:gravity="center_vertical">

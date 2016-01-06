@@ -7,11 +7,11 @@
 
     <string name="field_zero_hint">0.00</string>
     <string name="field_name_hint">New Profile</string>
-    <string name="field_dose">Dose(g):</string>
-    <string name="field_output">Output(g):</string>
-    <string name="field_brix">Brix(%):</string>
-    <string name="field_tds">TDS(%):</string>
-    <string name="field_yield">Yield(%):</string>
+    <string name="field_dose">Dose:</string>
+    <string name="field_output">Output:</string>
+    <string name="field_brix">Brix:</string>
+    <string name="field_tds">TDS:</string>
+    <string name="field_yield">Yield:</string>
     <string name="field_bean">Bean Profile:</string>
     <string name="field_solver">Solve Variable</string>
     <string name="field_name">Profile Name:</string>
@@ -24,8 +24,26 @@
     <string name="button_update">Update</string>
     <string name="button_delete">Delete</string>
 
+    <string name="unit_grams">g</string>
+    <string name="unit_ounces">oz</string>
+    <string name="unit_percent">%</string>
+
     <string name="new_profile">New Profile</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="preference_title">Settings</string>
+    <string name="mass_unit_title">Select Mass Unit</string>
+    <string-array name="mass_options">
+        <item>Grams</item>
+        <item>Ounces</item>
+    </string-array>
+    <string-array name="mass_options_alias">
+        <item>@string/unit_grams</item>
+        <item>@string/unit_ounces</item>
+    </string-array>
+    <string name="dump_to_csv_title">Dump To CSV</string>
+    <string name="dump_to_csv_summary">Dumps all stored data and profiles to a csv file.</string>
+    <string name="load_from_csv_title">Load From CSV</string>
+    <string name="load_from_csv_summary">Loads profile and data information from a csv file</string>
+    <string name="delete_database_title">Delete Stored Data</string>
+    <string name="delete_database_summary">Delete all stored data points and profiles. THIS CANNOT BE UNDONE!</string>
 </resources>

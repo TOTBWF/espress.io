@@ -1,6 +1,4 @@
-package io.reed.dripr.Views;
-
-import java.util.ArrayList;
+package io.reed.dripr.Views.Interfaces;
 
 /**
  * Created by reed on 1/29/16.

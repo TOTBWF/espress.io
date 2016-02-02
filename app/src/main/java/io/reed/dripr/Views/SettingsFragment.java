@@ -8,9 +8,10 @@ import android.preference.PreferenceFragment;
 import android.util.Log;
 
 import io.reed.dripr.Models.SettingsHelper;
-import io.reed.dripr.Presenters.ISettingsPresenter;
+import io.reed.dripr.Presenters.Interfaces.ISettingsPresenter;
 import io.reed.dripr.R;
 import io.reed.dripr.Presenters.SettingsPresenter;
+import io.reed.dripr.Views.Interfaces.ISettingsView;
 
 
 /**

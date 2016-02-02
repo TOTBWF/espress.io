@@ -19,9 +19,10 @@ import android.widget.Spinner;
 
 import java.util.ArrayList;
 
-import io.reed.dripr.Presenters.IProfilePresenter;
+import io.reed.dripr.Presenters.Interfaces.IProfilePresenter;
 import io.reed.dripr.Presenters.ProfilePresenter;
 import io.reed.dripr.R;
+import io.reed.dripr.Views.Interfaces.IProfileView;
 
 
 /**

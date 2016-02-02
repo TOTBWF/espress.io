@@ -4,12 +4,12 @@ import android.content.Context;
 import android.content.res.Resources;
 
 import java.util.ArrayList;
-import java.util.zip.DeflaterOutputStream;
 
 import io.reed.dripr.Models.DatabaseHelper;
 import io.reed.dripr.Models.YieldTdsTarget;
+import io.reed.dripr.Presenters.Interfaces.IProfilePresenter;
 import io.reed.dripr.R;
-import io.reed.dripr.Views.IProfileView;
+import io.reed.dripr.Views.Interfaces.IProfileView;
 
 /**
  * Created by reed on 1/29/16.

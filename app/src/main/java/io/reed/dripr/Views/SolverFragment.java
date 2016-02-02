@@ -17,12 +17,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import io.reed.dripr.Presenters.IProfilePresenter;
-import io.reed.dripr.Presenters.ISolverPresenter;
+import io.reed.dripr.Presenters.Interfaces.ISolverPresenter;
 import io.reed.dripr.Presenters.SolverPresenter;
 import io.reed.dripr.R;
-import io.reed.dripr.Models.DatabaseHelper;
-import io.reed.dripr.Models.YieldTdsTarget;
+import io.reed.dripr.Views.Interfaces.ISolverView;
 
 /**
  * Solver for equations
@@ -35,6 +33,8 @@ public class SolverFragment extends Fragment implements ISolverView {
     private EditText mSolutionEdit;
     private TextView mInputLabel;
     private TextView mSolutionLabel;
+    private TextView mInputLabelUnit;
+    private TextView mSolutionLabelUnit;
     private Spinner mSolverSpinner;
     private Spinner mBeanSpinner;
     private CheckBox mIncludeBeans;
@@ -64,13 +64,20 @@ public class SolverFragment extends Fragment implements ISolverView {
         mSolutionEdit = (EditText)v.findViewById(R.id.solver_edit_solution);
         mInputLabel = (TextView)v.findViewById(R.id.solver_label_input);
         mSolutionLabel = (TextView)v.findViewById(R.id.solver_label_solution);
+        mInputLabelUnit = (TextView)v.findViewById(R.id.solver_input_unit);
+        mSolutionLabelUnit = (TextView)v.findViewById(R.id.solver_solution_unit);
         mSolverSpinner = (Spinner)v.findViewById(R.id.solver_spinner);
         mBeanSpinner = (Spinner)v.findViewById(R.id.solver_bean_spinner);
         mIncludeBeans = (CheckBox)v.findViewById(R.id.solver_check_include);
+        setupLabels();
         setupSpinners();
         setupEditTexts();
         setupCheckbox();
         return v;
+    }
+
+    public void setupLabels() {
+        presenter.updateUnits();
     }
 
     public void setupSpinners() {
@@ -159,5 +166,15 @@ public class SolverFragment extends Fragment implements ISolverView {
     @Override
     public void updateSolutionLabel(String label) {
         mSolutionLabel.setText(label);
+    }
+
+    @Override
+    public void updateInputUnitLabel(String unit) {
+        mInputLabelUnit.setText(unit);
+    }
+
+    @Override
+    public void updateSolutionUnitLabel(String unit) {
+        mSolutionLabelUnit.setText(unit);
     }
 }

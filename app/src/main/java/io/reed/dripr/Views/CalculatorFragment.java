@@ -30,9 +30,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import io.reed.dripr.Presenters.CalculatorPresenter;
-import io.reed.dripr.Presenters.ICalculatorPresenter;
+import io.reed.dripr.Presenters.Interfaces.ICalculatorPresenter;
 import io.reed.dripr.R;
 import io.reed.dripr.Models.YieldTdsTarget;
+import io.reed.dripr.Views.Interfaces.ICalculatorView;
 
 /**
  * Fragment for TDS and Yield Calculation

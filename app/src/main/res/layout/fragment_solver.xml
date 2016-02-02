@@ -88,6 +88,7 @@
             android:layout_weight="1"
             android:layout_height="0dp"
             android:layout_width="match_parent"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
             <TextView
                 android:id="@+id/solver_label_input"
@@ -97,39 +98,70 @@
                 android:textSize="@dimen/text_size_calc"
                 android:gravity="start"
                 android:layout_weight="1" />
-            <EditText
-                android:id="@+id/solver_edit_input"
-                android:labelFor="@id/solver_edit_input"
+            <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size_calc"
-                android:hint="@string/field_zero_hint"
-                android:inputType="numberDecimal"
-                android:layout_weight="1"
-                android:gravity="end" />
+                android:layout_weight="1">
+                <EditText
+                    android:id="@+id/solver_edit_input"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_calc"
+                    android:hint="@string/field_zero_hint"
+                    android:inputType="numberDecimal"
+                    android:gravity="end"
+                    android:layout_toStartOf="@+id/solver_input_unit"
+                    android:layout_alignParentStart="true"/>
+                <TextView
+                    android:id="@id/solver_input_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:textSize="@dimen/text_size_calc"
+                    android:text="@string/unit_grams"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true" />
+            </RelativeLayout>
         </TableRow>
 
         <TableRow
             android:id="@+id/solver_row_solution"
             android:layout_weight="1"
             android:layout_width="match_parent"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/solver_label_solution"
+                android:text="@string/field_output"
                 android:textSize="@dimen/text_size_calc"
                 android:layout_weight="1"/>
-            <EditText
+            <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/solver_edit_solution"
-                android:textSize="@dimen/text_size_calc"
-                android:hint="@string/field_zero_hint"
-                android:inputType="none"
-                android:gravity="end"
-                android:editable="false"
-                android:layout_weight="1"/>
+                android:layout_weight="1">
+                <EditText
+                    android:id="@+id/solver_edit_solution"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_calc"
+                    android:hint="@string/field_zero_hint"
+                    android:inputType="numberDecimal"
+                    android:gravity="end"
+                    android:editable="false"
+                    android:layout_toStartOf="@+id/solver_solution_unit"
+                    android:layout_alignParentStart="true"/>
+                <TextView
+                    android:id="@id/solver_solution_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:textSize="@dimen/text_size_calc"
+                    android:text="@string/unit_grams"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true" />
+            </RelativeLayout>
         </TableRow>
     </TableLayout>
 

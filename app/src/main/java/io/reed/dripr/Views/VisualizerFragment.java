@@ -1,7 +1,6 @@
 package io.reed.dripr.Views;
 
 
-import android.database.Cursor;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -24,11 +23,11 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import io.reed.dripr.Presenters.IVisualizerPresenter;
+import io.reed.dripr.Presenters.Interfaces.IVisualizerPresenter;
 import io.reed.dripr.Presenters.VisualizerPresenter;
 import io.reed.dripr.R;
-import io.reed.dripr.Models.DatabaseHelper;
 import io.reed.dripr.Models.YieldTdsTarget;
+import io.reed.dripr.Views.Interfaces.IVisualizerView;
 
 
 /**

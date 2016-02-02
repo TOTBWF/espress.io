@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.nfc.tech.IsoDep;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
@@ -22,16 +21,16 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import io.reed.dripr.Models.CoffeeDatabaseContract;
 import io.reed.dripr.Models.DatabaseHelper;
-import io.reed.dripr.Views.ISettingsView;
+import io.reed.dripr.Presenters.Interfaces.ISettingsPresenter;
+import io.reed.dripr.Views.Interfaces.ISettingsView;
 
 /**
  * Created by reed on 1/29/16.
  */
-public class SettingsPresenter implements ISettingsPresenter{
+public class SettingsPresenter implements ISettingsPresenter {
 
     private ISettingsView view;
     private DatabaseHelper dbHelper;

@@ -1,4 +1,4 @@
-package io.reed.dripr.Views;
+package io.reed.dripr.Views.Interfaces;
 
 import com.androidplot.xy.SimpleXYSeries;
 

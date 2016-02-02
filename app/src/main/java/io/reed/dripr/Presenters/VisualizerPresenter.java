@@ -7,7 +7,8 @@ import java.util.ArrayList;
 
 import io.reed.dripr.Models.DatabaseHelper;
 import io.reed.dripr.Models.YieldTdsTarget;
-import io.reed.dripr.Views.IVisualizerView;
+import io.reed.dripr.Presenters.Interfaces.IVisualizerPresenter;
+import io.reed.dripr.Views.Interfaces.IVisualizerView;
 
 /**
  * Created by reed on 2/1/16.

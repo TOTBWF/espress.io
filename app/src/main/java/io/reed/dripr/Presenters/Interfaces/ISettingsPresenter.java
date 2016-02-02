@@ -1,8 +1,8 @@
-package io.reed.dripr.Presenters;
+package io.reed.dripr.Presenters.Interfaces;
 
 import android.content.Context;
 
-import io.reed.dripr.Views.ISettingsView;
+import io.reed.dripr.Views.Interfaces.ISettingsView;
 
 /**
  * Created by reed on 1/29/16.

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -14,7 +13,8 @@ import io.reed.dripr.Models.CoffeeModel;
 import io.reed.dripr.Models.DatabaseHelper;
 import io.reed.dripr.Models.SettingsHelper;
 import io.reed.dripr.Models.YieldTdsTarget;
-import io.reed.dripr.Views.ICalculatorView;
+import io.reed.dripr.Presenters.Interfaces.ICalculatorPresenter;
+import io.reed.dripr.Views.Interfaces.ICalculatorView;
 
 /**
  * Created by reed on 1/29/16.

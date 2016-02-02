@@ -1,8 +1,8 @@
-package io.reed.dripr.Presenters;
+package io.reed.dripr.Presenters.Interfaces;
 
 import android.content.Context;
 
-import io.reed.dripr.Views.IVisualizerView;
+import io.reed.dripr.Views.Interfaces.IVisualizerView;
 
 /**
  * Created by reed on 2/1/16.

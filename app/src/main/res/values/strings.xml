@@ -28,6 +28,7 @@
     <string name="unit_ounces">oz</string>
     <string name="unit_percent">%</string>
 
+    <string name="new_profile_spinner">Create a new profile...</string>
     <string name="new_profile">New Profile</string>
 
     <string name="preference_title">Settings</string>

@@ -1,4 +1,4 @@
-package io.reed.dripr;
+package io.reed.dripr.Views;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -15,11 +15,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import io.reed.dripr.R;
+import io.reed.dripr.Models.DatabaseHelper;
+
 public class MainActivity extends AppCompatActivity {
     // Drawer stuff
     private ActionBarDrawerToggle mDrawerToggle;
     private ListView mDrawerList;
     private DrawerLayout mDrawerLayout;
+    private DatabaseHelper mDbHelper;
 
     private enum DrawerFragments {
         CALCULATOR, SOLVER, VISUALIZER, PROFILE_EDITOR, SETTINGS
@@ -79,6 +83,10 @@ public class MainActivity extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    public DatabaseHelper getDbHelper() {
+        return mDbHelper;
     }
 
     private void setupDrawer() {

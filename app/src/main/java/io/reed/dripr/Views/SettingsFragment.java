@@ -1,4 +1,4 @@
-package io.reed.dripr;
+package io.reed.dripr.Views;
 
 
 import android.content.SharedPreferences;
@@ -6,22 +6,20 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
+
+import io.reed.dripr.Models.SettingsHelper;
+import io.reed.dripr.Presenters.ISettingsPresenter;
+import io.reed.dripr.R;
+import io.reed.dripr.Presenters.SettingsPresenter;
 
 
 /**
  * The fragment for settings. All values to be added are found in /res/xml/preferences.xml
  * @author Reed Mullanix
  */
-public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener, ISettingsView {
 
-        private static final String MASS_UNIT = "mass_unit_preference";
-        private static final String DUMP_TO_CSV = "dump_to_csv_preference";
-        private static final String LOAD_FROM_CSV = "load_from_csv_preference";
-        private static final String CLEAR_DB = "delete_database_preference";
+    private static ISettingsPresenter presenter;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -32,6 +30,10 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
+        if(presenter == null) {
+            presenter = new SettingsPresenter(getActivity());
+        }
+        presenter.onTakeView(this, getActivity());
         // Setup on click listeners
         setupPreferenceClickListeners();
     }
@@ -51,42 +53,37 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         switch (key) {
-            case MASS_UNIT:
-                settingNotYetImplemented();
+            case SettingsHelper.MASS_UNIT_KEY:
                 break;
             default:
-                settingNotYetImplemented();
+                presenter.settingNotYetImplemented();
                 break;
         }
         Log.d("Settings", "Setting with key:" + key + " changed value");
     }
 
     private void setupPreferenceClickListeners() {
-        findPreference(DUMP_TO_CSV).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        findPreference(SettingsHelper.DUMP_TO_CSV_KEY).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                settingNotYetImplemented();
+                presenter.dumpDbToCsv();
                 return true;
             }
         });
-        findPreference(LOAD_FROM_CSV).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        findPreference(SettingsHelper.LOAD_FROM_CSV_KEY).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                settingNotYetImplemented();
+                presenter.settingNotYetImplemented();
                 return true;
             }
         });
-        findPreference(CLEAR_DB).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        findPreference(SettingsHelper.CLEAR_DB_KEY).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                settingNotYetImplemented();
+                presenter.clearDb();
                 return true;
             }
         });
     }
 
-    private void settingNotYetImplemented() {
-        Toast.makeText(getActivity(), "Setting Not Implemented!", Toast.LENGTH_SHORT).show();
-        Log.d("Settings", "Setting Not Yet Implemented!");
-    }
 }

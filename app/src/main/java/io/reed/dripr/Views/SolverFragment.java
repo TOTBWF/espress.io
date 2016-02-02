@@ -1,4 +1,4 @@
-package io.reed.dripr;
+package io.reed.dripr.Views;
 
 import android.os.Bundle;
 import android.app.Fragment;
@@ -15,30 +15,21 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.androidplot.ui.AnchorPosition;
-import com.androidplot.ui.XLayoutStyle;
-import com.androidplot.ui.YLayoutStyle;
-import com.androidplot.xy.LineAndPointFormatter;
-import com.androidplot.xy.SimpleXYSeries;
-import com.androidplot.xy.XYPlot;
-import com.androidplot.xy.XYSeries;
-import com.androidplot.xy.XYStepMode;
-
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 
-import io.reed.dripr.Utils.Converters;
-import io.reed.dripr.Utils.DatabaseHelper;
-import io.reed.dripr.Utils.YieldTdsTarget;
+import io.reed.dripr.Presenters.IProfilePresenter;
+import io.reed.dripr.Presenters.ISolverPresenter;
+import io.reed.dripr.Presenters.SolverPresenter;
+import io.reed.dripr.R;
+import io.reed.dripr.Models.DatabaseHelper;
+import io.reed.dripr.Models.YieldTdsTarget;
 
 /**
  * Solver for equations
  * @author Reed Mullanix
  */
 
-public class SolverFragment extends Fragment {
-
+public class SolverFragment extends Fragment implements ISolverView {
 
     private EditText mInputEdit;
     private EditText mSolutionEdit;
@@ -47,13 +38,8 @@ public class SolverFragment extends Fragment {
     private Spinner mSolverSpinner;
     private Spinner mBeanSpinner;
     private CheckBox mIncludeBeans;
-    private DatabaseHelper mDbHelper;
-    private ArrayList<YieldTdsTarget> mTargets;
-    private int selectedTargetIndex;
 
-    private enum Solutions {
-        DOSE, OUTPUT
-    }
+    private static ISolverPresenter presenter;
 
     public SolverFragment() {
         // Required empty public constructor
@@ -62,6 +48,10 @@ public class SolverFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(presenter == null) {
+            presenter = new SolverPresenter();
+        }
+        presenter.onTakeView(this, getActivity());
     }
 
     @Override
@@ -77,8 +67,6 @@ public class SolverFragment extends Fragment {
         mSolverSpinner = (Spinner)v.findViewById(R.id.solver_spinner);
         mBeanSpinner = (Spinner)v.findViewById(R.id.solver_bean_spinner);
         mIncludeBeans = (CheckBox)v.findViewById(R.id.solver_check_include);
-        mDbHelper = new DatabaseHelper(getActivity().getApplicationContext());
-        mTargets = YieldTdsTarget.getStoredTargets(mDbHelper);
         setupSpinners();
         setupEditTexts();
         setupCheckbox();
@@ -95,19 +83,7 @@ public class SolverFragment extends Fragment {
         mSolverSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Solutions solution = Solutions.values()[position];
-                switch (solution) {
-                    case DOSE:
-                        mInputLabel.setText(R.string.field_output);
-                        mSolutionLabel.setText(R.string.field_dose);
-                        break;
-                    case OUTPUT:
-                        mInputLabel.setText(R.string.field_dose);
-                        mSolutionLabel.setText(R.string.field_output);
-                        break;
-                }
-                // Zero out input fields
-                mInputEdit.setText(null);
+                presenter.updateSolutionType(position);
             }
 
             @Override
@@ -115,18 +91,11 @@ public class SolverFragment extends Fragment {
 
             }
         });
-        // TODO Read values from db
-        ArrayList<String> beanOptions = new ArrayList<String>();
-        for(YieldTdsTarget y: mTargets) {
-            beanOptions.add(y.getName());
-        }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_dropdown_item, beanOptions);
-        mBeanSpinner.setAdapter(adapter);
+        presenter.updateTargets();
         mBeanSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedTargetIndex = position;
-                mInputEdit.setText(null);
+                presenter.setSelectedTarget(position);
             }
 
             @Override
@@ -137,7 +106,6 @@ public class SolverFragment extends Fragment {
     }
 
     private void setupEditTexts() {
-        // Set up the watcher for the 3 fields associated with yield
         TextWatcher textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -151,7 +119,7 @@ public class SolverFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                updateSolution();
+                presenter.computeSolution(s.toString(), mIncludeBeans.isChecked());
             }
         };
         mInputEdit.addTextChangedListener(textWatcher);
@@ -161,44 +129,35 @@ public class SolverFragment extends Fragment {
         mIncludeBeans.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                updateSolution();
+                presenter.computeSolution(mInputEdit.getText().toString(), isChecked);
             }
         });
     }
 
-    private void updateSolution() {
-        double input = Converters.convertEditToDouble(mInputEdit);
-        double tds = mTargets.get(selectedTargetIndex).getTdsTarget();
-        double yield = mTargets.get(selectedTargetIndex).getYieldTarget();
-        double absorption = mTargets.get(selectedTargetIndex).getBeanAbsorptionFactor();
-        boolean includeBeans= mIncludeBeans.isChecked();
-        // Get the solution from the enum using the spinner to index
-        // Decoupling UI from logic is good!
-        Solutions solution = Solutions.values()[mSolverSpinner.getSelectedItemPosition()];
-        if (input != 0) {
-            mSolutionEdit.setText(Double.toString(computeSolution(input, tds, yield, absorption, includeBeans, solution)));
-        } else {
-            mSolutionEdit.setText(null);
-        }
+    @Override
+    public void updateTargetSpinner(ArrayList<String> targetNames) {
+        // Get the names of the profiles
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_dropdown_item, targetNames);
+        mBeanSpinner.setAdapter(adapter);
+
+    }
+    @Override
+    public void updateInput(String input) {
+        mInputEdit.setText(input);
     }
 
-    private double computeSolution(double userInput, double tds, double yield, double absorption, boolean includeBeans, Solutions solution) {
-        // Get the chosen variable to solve for
-        switch (solution) {
-            case DOSE:
-                // Dose, input = output
-                // Dose = TDS*Out/Yield
-                if(includeBeans)
-                    return userInput/(yield/tds + absorption);
-                return tds*userInput/yield;
-            case OUTPUT:
-                // Output, input = dose
-                // Output = Yield*Dose/TDS
-                if(includeBeans)
-                    return  yield*userInput/tds + absorption*userInput;
-                return yield*userInput/tds;
-        }
-        // Just in case weird shit happens
-        return -1;
+    @Override
+    public void updateSolution(String solution) {
+        mSolutionEdit.setText(solution);
+    }
+
+    @Override
+    public void updateInputLabel(String label) {
+        mInputLabel.setText(label);
+    }
+
+    @Override
+    public void updateSolutionLabel(String label) {
+        mSolutionLabel.setText(label);
     }
 }

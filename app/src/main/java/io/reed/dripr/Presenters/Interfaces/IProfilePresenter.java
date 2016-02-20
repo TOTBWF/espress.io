@@ -5,7 +5,7 @@ import android.content.Context;
 import io.reed.dripr.Views.Interfaces.IProfileView;
 
 /**
- * Created by reed on 1/29/16.
+ * Created by Reed Mullanix on 1/29/16.
  */
 public interface IProfilePresenter {
     void onTakeView(IProfileView view, Context context);

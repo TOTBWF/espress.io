@@ -3,6 +3,8 @@
 /.idea/libraries
 .DS_Store
 /build
+/app//build
+/app/*.apk
 /captures
 *.iml
 build/
@@ -12,3 +14,4 @@ build/
 gradle-app.setting
 !gradle-wrapper.jar
 .gradletasknamecache
+*.jks

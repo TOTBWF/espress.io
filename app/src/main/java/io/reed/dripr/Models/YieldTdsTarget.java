@@ -16,7 +16,8 @@ import java.util.Arrays;
 import io.reed.dripr.R;
 
 /**
- * Created by reed on 12/3/15.
+ * Created by Reed Mullanix on 12/3/15.
+ * Represents a TDS and Yield target
  */
 public class YieldTdsTarget {
     private String name;

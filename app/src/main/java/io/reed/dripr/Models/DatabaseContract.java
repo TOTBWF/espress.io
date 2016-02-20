@@ -3,13 +3,15 @@ package io.reed.dripr.Models;
 import android.provider.BaseColumns;
 
 /**
- * Created by reed on 12/3/15.
+ * Created by Reed Mullanix on 12/3/15.
+ * Provides details for the database schema to the rest of the app
+ * Also includes some useful SQL commands
  */
-public final class CoffeeDatabaseContract {
+public final class DatabaseContract {
     public static final String COLUMN_NAME_NULLABLE = "NULL";
     // To prevent someone from accidentally instantiating the contract class,
     // give it an empty constructor.
-    public CoffeeDatabaseContract () {}
+    public DatabaseContract() {}
 
     public static abstract class ProfileEntry implements BaseColumns {
         public static final String TABLE_PROFILE = "PROFILE";

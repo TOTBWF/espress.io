@@ -47,4 +47,6 @@
     <string name="load_from_csv_summary">Loads profile and data information from a csv file</string>
     <string name="delete_database_title">Delete Stored Data</string>
     <string name="delete_database_summary">Delete all stored data points and profiles. THIS CANNOT BE UNDONE!</string>
+    <string name="donate_title">Donate!</string>
+    <string name="donate_summary">I helped you make your coffee, now help me make mine!</string>
 </resources>

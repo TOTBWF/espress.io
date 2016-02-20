@@ -5,7 +5,8 @@ import android.content.Context;
 import io.reed.dripr.Views.Interfaces.ICalculatorView;
 
 /**
- * Created by reed on 1/29/16.
+ * Created by Reed Mullanix on 1/29/16.
+ * Interface for the Calculator Presenter
  */
 public interface ICalculatorPresenter {
     void onTakeView(ICalculatorView view, Context context);

@@ -1,7 +1,8 @@
 package io.reed.dripr.Models;
 
 /**
- * Created by reed on 1/29/16.
+ * Created by Reed Mullanix on 1/29/16.
+ * Provides some useful Settings related stuff
  */
 public class SettingsHelper {
     public static final String MASS_UNIT_KEY = "mass_unit_preference";

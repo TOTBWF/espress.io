@@ -8,7 +8,7 @@ import android.preference.PreferenceManager;
 
 import java.util.ArrayList;
 
-import io.reed.dripr.Models.CoffeeDatabaseContract;
+import io.reed.dripr.Models.DatabaseContract;
 import io.reed.dripr.Models.CoffeeModel;
 import io.reed.dripr.Models.DatabaseHelper;
 import io.reed.dripr.Models.SettingsHelper;
@@ -17,7 +17,7 @@ import io.reed.dripr.Presenters.Interfaces.ICalculatorPresenter;
 import io.reed.dripr.Views.Interfaces.ICalculatorView;
 
 /**
- * Created by reed on 1/29/16.
+ * Created by Reed Mullanix on 1/29/16.
  */
 public class CalculatorPresenter implements ICalculatorPresenter {
 
@@ -105,11 +105,11 @@ public class CalculatorPresenter implements ICalculatorPresenter {
         }
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(CoffeeDatabaseContract.CoffeeEntry.COLUMN_INPUT, dDose);
-        values.put(CoffeeDatabaseContract.CoffeeEntry.COLUMN_OUTPUT, dOutput);
-        values.put(CoffeeDatabaseContract.CoffeeEntry.COLUMN_TDS, dTDS);
-        values.put(CoffeeDatabaseContract.CoffeeEntry.COLUMN_BEANS, beans);
-        db.insert(CoffeeDatabaseContract.CoffeeEntry.TABLE_COFFEE, CoffeeDatabaseContract.COLUMN_NAME_NULLABLE, values);
+        values.put(DatabaseContract.CoffeeEntry.COLUMN_INPUT, dDose);
+        values.put(DatabaseContract.CoffeeEntry.COLUMN_OUTPUT, dOutput);
+        values.put(DatabaseContract.CoffeeEntry.COLUMN_TDS, dTDS);
+        values.put(DatabaseContract.CoffeeEntry.COLUMN_BEANS, beans);
+        db.insert(DatabaseContract.CoffeeEntry.TABLE_COFFEE, DatabaseContract.COLUMN_NAME_NULLABLE, values);
         view.setSaveEnabled(false);
         view.updateDose("");
         view.updateOutput("");

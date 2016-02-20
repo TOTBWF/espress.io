@@ -22,7 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import io.reed.dripr.Models.CoffeeDatabaseContract;
+import io.reed.dripr.Models.DatabaseContract;
 import io.reed.dripr.Models.DatabaseHelper;
 import io.reed.dripr.Presenters.Interfaces.ISettingsPresenter;
 import io.reed.dripr.Views.Interfaces.ISettingsView;
@@ -52,8 +52,8 @@ public class SettingsPresenter implements ISettingsPresenter {
 
 
     public void dumpDbToCsv() {
-        new DumpDBToCsvAsyncTask().execute(CoffeeDatabaseContract.CoffeeEntry.TABLE_COFFEE,
-                CoffeeDatabaseContract.ProfileEntry.TABLE_PROFILE);
+        new DumpDBToCsvAsyncTask().execute(DatabaseContract.CoffeeEntry.TABLE_COFFEE,
+                DatabaseContract.ProfileEntry.TABLE_PROFILE);
     }
 
     public void clearDb() {
@@ -98,11 +98,11 @@ public class SettingsPresenter implements ISettingsPresenter {
                     // Start looping moving through the db
                     Cursor cursor = null;
                     switch (tableName) {
-                        case CoffeeDatabaseContract.CoffeeEntry.TABLE_COFFEE:
-                            cursor = dbHelper.getReadableDatabase().rawQuery(CoffeeDatabaseContract.CoffeeEntry.SQL_SELECT_ENTRIES, null);
+                        case DatabaseContract.CoffeeEntry.TABLE_COFFEE:
+                            cursor = dbHelper.getReadableDatabase().rawQuery(DatabaseContract.CoffeeEntry.SQL_SELECT_ENTRIES, null);
                             break;
-                        case CoffeeDatabaseContract.ProfileEntry.TABLE_PROFILE:
-                            cursor = dbHelper.getReadableDatabase().rawQuery(CoffeeDatabaseContract.ProfileEntry.SQL_SELECT_ENTRIES, null);
+                        case DatabaseContract.ProfileEntry.TABLE_PROFILE:
+                            cursor = dbHelper.getReadableDatabase().rawQuery(DatabaseContract.ProfileEntry.SQL_SELECT_ENTRIES, null);
                             break;
                         default:
                             Log.e(this.getClass().getName(), "DB Dump failed! Not a valid table name");
@@ -163,6 +163,9 @@ public class SettingsPresenter implements ISettingsPresenter {
         }
     }
 
+    /**
+     * TODO: Complete loading from csv
+     */
     private class LoadDbFromCsvAsync extends AsyncTask<String, Integer, Boolean> {
         // TODO: Fix the progress bar so that it actually, well, progresses
         private final ProgressDialog progressDialog = new ProgressDialog(context);
@@ -200,12 +203,12 @@ public class SettingsPresenter implements ISettingsPresenter {
                 String tableName = filePath.split("_")[0];
                 Cursor cursor = null;
                 switch (tableName) {
-                    case CoffeeDatabaseContract.CoffeeEntry.TABLE_COFFEE:
-                        cursor = dbHelper.getReadableDatabase().rawQuery(CoffeeDatabaseContract.CoffeeEntry.SQL_SELECT_ENTRIES, null);
+                    case DatabaseContract.CoffeeEntry.TABLE_COFFEE:
+                        cursor = dbHelper.getReadableDatabase().rawQuery(DatabaseContract.CoffeeEntry.SQL_SELECT_ENTRIES, null);
                         Log.d(this.getClass().getName(), "Loading data to coffee table");
                         break;
-                    case CoffeeDatabaseContract.ProfileEntry.TABLE_PROFILE:
-                        cursor = dbHelper.getReadableDatabase().rawQuery(CoffeeDatabaseContract.ProfileEntry.SQL_SELECT_ENTRIES, null);
+                    case DatabaseContract.ProfileEntry.TABLE_PROFILE:
+                        cursor = dbHelper.getReadableDatabase().rawQuery(DatabaseContract.ProfileEntry.SQL_SELECT_ENTRIES, null);
                         Log.d(this.getClass().getName(), "Loading data to profile table");
                         break;
                     default:
@@ -228,7 +231,7 @@ public class SettingsPresenter implements ISettingsPresenter {
                             if (firstRow) {
                                 firstRow = false;
                             } else {
-                                dbHelper.getReadableDatabase().insert(tableName, CoffeeDatabaseContract.COLUMN_NAME_NULLABLE, values);
+                                dbHelper.getReadableDatabase().insert(tableName, DatabaseContract.COLUMN_NAME_NULLABLE, values);
                                 values = new ContentValues();
                                 cursor.moveToNext();
                             }

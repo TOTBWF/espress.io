@@ -5,7 +5,7 @@ import android.content.Context;
 import io.reed.dripr.Views.Interfaces.ISettingsView;
 
 /**
- * Created by reed on 1/29/16.
+ * Created by Reed Mullanix on 1/29/16.
  */
 public interface ISettingsPresenter {
     void onTakeView(ISettingsView view, Context context);
